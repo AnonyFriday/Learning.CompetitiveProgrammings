@@ -1,7 +1,5 @@
 #include <bits/stdc++.h>
 
-#include <algorithm>
-
 using namespace std;
 
 void printArrayCorrect(int *arr, int n) {
@@ -11,13 +9,26 @@ void printArrayCorrect(int *arr, int n) {
   }
 }
 
-bool customComp(int a, int b) {
-  return a > b;
+/*
+        Return a pair
+*/
+pair<int, int> findLargestAndSmallest(int *arr, int n) {
+  pair<int, int> pair;
+
+  int max = INT_MIN;
+  int min = INT_MAX;
+
+  for (int i = 0; i < n; i++) {
+    int el = arr[i];
+    if (el >= max) max = el;
+    if (el <= min) min = el;
+  }
+
+  return make_pair(max, min);
 }
 
 int main() {
   ios_base::sync_with_stdio(0);
-  cin.tie(nullptr);
 
   // seed the rand
   srand(time(nullptr));
@@ -30,12 +41,6 @@ int main() {
   for (int i = 0; i < n; i++) {
     arr[i] = (rand() % 50 + 1);
   }
-
-  printArrayCorrect(arr, n);
-
-  // use built in sort function
-  // sort(arr, arr + n, customComp);
-  sort(arr, arr + n, greater<int>());
 
   printArrayCorrect(arr, n);
 
