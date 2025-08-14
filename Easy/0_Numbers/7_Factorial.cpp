@@ -24,6 +24,8 @@ int main() {
   cin >> n;
 
   cout << "! ~: " << sol_1_stirling(n) << endl;
+
+  // using tgamma(a + 1) to calculate the exact value
   cout << "Exact: " << (long double)tgamma(n + 1) << endl;
 
   return 0;

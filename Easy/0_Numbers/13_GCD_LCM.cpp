@@ -85,13 +85,14 @@ int main() {
 
   // Using GCD advanced
   cout << gcdAdvance(4, 0) << endl;
-  cout << gcdAdvance(12, 16) << endl;
+  cout << gcdAdvance(12, 24) << endl;
   cout << gcdAdvance(5, 7) << endl;
   cout << gcdAdvance(4, 1) << endl
        << endl;
 
   // Using GCD advanced2
   cout << gcdAdvance2(4, 0) << endl;
+  cout << gcdAdvance2(12, 24) << endl;
   cout << gcdAdvance2(12, 16) << endl;
   cout << gcdAdvance2(4, 1) << endl
        << endl;
