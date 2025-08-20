@@ -15,27 +15,29 @@ void swap(int &a, int &b) {
   a = a ^ b;
 }
 
-void bubbleSort(int *arr, int n) {
+/*
+
+        5 10 -2 -4
+                 i
+        j
+
+*/
+void selectionSort(int *arr, int n) {
   if (n == 0 || n == 1) return;
 
-  // flag, incase no swapping happen, then the array is sorted
-  bool isSorted = true;
+  int maxIndex;
 
-  // ascending
-  // 3 5 6 1
-  // i
-  // j
-
-  for (int i = 0; i < n - 1; i++) {
-    isSorted = true;
-    for (int j = 0; j < n - i - 1; j++) {
-      if (arr[j] >= arr[j + 1]) {
-        swap(arr[j], arr[j + 1]);
-        isSorted = false;
+  for (int i = n - 1; i > 0; i--) {
+    maxIndex = i;
+    for (int j = 0; j < i; j++) {
+      if (arr[maxIndex] < arr[j]) {
+        maxIndex = j;
       }
     }
 
-    if (isSorted) return;
+    // if equals, which mean no swapping, then current i is correct
+    if (i != maxIndex)
+      swap(arr[i], arr[maxIndex]);
   }
 }
 
@@ -47,16 +49,16 @@ int main() {
   int arr3[0] = {};
   int arr4[5] = {2, 2, 2, 2, 2};
 
-  bubbleSort(arr1, 4);
+  selectionSort(arr1, 4);
   printArrayCorrect(arr1, 4);
 
-  bubbleSort(arr2, 2);
+  selectionSort(arr2, 2);
   printArrayCorrect(arr2, 2);
 
-  bubbleSort(arr3, 0);
+  selectionSort(arr3, 0);
   printArrayCorrect(arr3, 0);
 
-  bubbleSort(arr4, 5);
+  selectionSort(arr4, 5);
   printArrayCorrect(arr4, 5);
 
   return 0;
