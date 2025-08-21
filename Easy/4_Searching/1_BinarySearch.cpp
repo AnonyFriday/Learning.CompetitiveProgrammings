@@ -57,12 +57,12 @@ int main() {
 
   // Assume we have 4 ordered array
 
-  int arr1[4] = {1, 3, 4, 5};
+  int arr1[6] = {-1, 0, 3, 5, 9, 12};
   int arr2[2] = {1, 10};
   int arr3[0] = {};
   int arr4[200000] = {1, 3, 4, 5, 0, 0};
 
-  cout << "Find1: " << binarySearch(arr1, 4, 4) << endl;
+  cout << "Find1: " << binarySearch(arr1, 6, 9) << endl;
   cout << "Find2: " << binarySearch(arr2, 2, 10) << endl;
   cout << "Find3: " << binarySearch(arr3, 0, 0) << endl;
   cout << "Find4: " << binarySearch(arr4, 200000, 0) << endl;
