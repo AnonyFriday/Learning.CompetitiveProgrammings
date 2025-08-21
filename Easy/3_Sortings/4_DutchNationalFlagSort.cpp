@@ -26,6 +26,13 @@ Solution
 - using 3 pointers represents for 3 barriers: start, mid, end
 - looping until the mid >= end
 
+a[0 .. zero-1] → all 0s
+a[zero .. one-1] → all 1s
+a[one .. two] → unknown (not processed yet)
+a[two+1 .. n-1] → all 2s
+
+Zones: 0s=[] | 1s=[] | unknown=[2,0,1,2,1,0] | 2s=[]
+
 */
 void sortOnSet(int *arr, int n) {
   if (n == 0 || n == 1) return;
@@ -42,6 +49,8 @@ void sortOnSet(int *arr, int n) {
 
     switch (el) {
       case 0: {
+        // the reason mid can ++ is because we already know that mid here is 0, and start here is 1, since the left side is already sorted
+        //  so we simply swap and advance both for checking next number
         swap(arr[start], arr[mid]);
         start++;
         mid++;
@@ -52,6 +61,8 @@ void sortOnSet(int *arr, int n) {
         break;
       }
       case 2: {
+        // the reason mid does not ++ is because at arr[end], it might contains 0 or 1, so we have to check at next iteration after swapping
+        // end pointer comes from the unknown region, not like zero pointer comes from 1s, so that's why we need to check
         swap(arr[end], arr[mid]);
         end--;
         break;
