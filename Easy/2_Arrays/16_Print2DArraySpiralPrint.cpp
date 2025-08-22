@@ -38,12 +38,16 @@ void printSpiralPrint(int (*arr)[5], int n, int m) {
     }
 
     // end row
+    // - when the end col and start col are equals, we don't want to duplicate the printing of start row
     for (int i = endCol - 1; i >= startCol; i--) {
+      if (startRow == endRow) break;
       cout << arr[endRow][i] << " ";
     }
 
     // start col
+    // - same reason as end col, dont want to print the duplicate
     for (int i = endRow - 1; i >= startRow + 1; i--) {
+      if (startCol == endCol) break;
       cout << arr[i][startCol] << " ";
     }
 
