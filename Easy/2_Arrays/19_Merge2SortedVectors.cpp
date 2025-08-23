@@ -36,9 +36,9 @@ void mergeTwoSortedVectors(vector<int> &v1, vector<int> &v2) {
     result.push_back(v2[j++]);
   }
 
-  for (const int &x : result) {
-    cout << x << endl;
-  }
+  // for (const int &x : result) {
+  // cout << x << endl;
+  // }
 }
 
 int main() {
@@ -47,7 +47,19 @@ int main() {
   vector<int> v1 = {1, 5, 7, 10};
   vector<int> v2 = {-5, -3, -1, 11, 24};
 
+  // using manual
   mergeTwoSortedVectors(v1, v2);
+
+  // using merge
+  vector<int> merged;
+  std::merge(
+      v1.begin(), v1.end(),
+      v2.begin(), v2.end(),
+      back_inserter(merged));
+
+  for (const int &x : merged) {
+    cout << x << endl;
+  }
 
   return 0;
 }
