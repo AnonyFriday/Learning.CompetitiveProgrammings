@@ -21,15 +21,10 @@ using namespace std;
 
 */
 
-int main() {
-  ios_base::sync_with_stdio(0);
-
-  int N;
-  cin >> N;
-
+void printReverseTriangle(int N) {
   // row
   for (int r = 1; r <= N; r++) {
-    char c = 'A';
+    char c = 'A';  // start letter
     int cR = c + N - r;
     int cL = c;
 
@@ -38,7 +33,7 @@ int main() {
       cout << c;
     }
 
-    // // e,d,c,b,a
+    // e,d,c,b,a
     for (c = c - 1; c >= cL; c--) {
       cout << c;
     }
@@ -46,6 +41,46 @@ int main() {
     // next row;
     cout << endl;
   }
+}
+
+/*
+
+AA
+ABBA
+ABCCBA
+ABCDDCBA
+
+*/
+void printTriangle(int N) {
+  if (N <= 0) return;
+
+  // rows
+  for (int i = 1; i <= N; i++) {
+    char c = 'A';
+    int cL = c + i;
+    int cR = c;
+
+    // a,b,c,d
+    for (; c < cL; c++) {
+      cout << c;
+    }
+
+    // d,c,b,a
+    for (c = c - 1; c >= cR; c--) {
+      cout << c;
+    }
+
+    cout << endl;
+  }
+}
+
+int main() {
+  ios_base::sync_with_stdio(0);
+
+  int N;
+  cin >> N;
+
+  printTriangle(N);
 
   return 0;
 }
