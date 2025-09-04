@@ -3,17 +3,19 @@
 using namespace std;
 
 void readLine(char *arr, int N, char delimitor) {
+  // get each character
+  // add to the array
+  // loop until reaching \0 or reaching the delimitor
   int count = 0;
   char c;
 
-  c = cin.get();  // get all character, including whitespace
+  c = cin.get();  // get all chracter, including whitespace
+
   while (c != '\0') {
-    // if reaching delimitor or count > N, break the loop
-    if (count == N - 1 || c == delimitor) {
+    if (c == delimitor || count == N - 1) {
       break;
     }
 
-    // add c into the array
     arr[count++] = c;
     c = cin.get();
   }

@@ -14,20 +14,39 @@ int main() {
         - getline(cin, line): read the entire line easily
   */
 
-  // Cin
-  string name;
-  cin >> name;           // if input = "John Doe"
-  cout << name << endl;  // output = "John"  (stops at space)
+  // // Cin
+  // string name;
+  // cin >> name;           // if input = "John Doe"
+  // cout << name << endl;  // output = "John"  (stops at space)
+  //
+  // // cin.get()
+  // char ch;
+  // cin.get(ch);
+  // cout << ch << endl;
+  //
+  // // cin.get(charArray, size)
+  // char line[50];
+  // cin.get(line, 50);
+  // cout << line << endl;
+  //
 
-  // cin.get()
-  char ch;
-  cin.get(ch);
-  cout << ch << endl;
+  // Using strstr, strcpy, strcat
+  char name1[]{"Pratatek"};
+  char company[] = "Coding Minute";
+  char intern_name[] = {'x', 'y', 'z', '\0'};
 
-  // cin.get(charArray, size)
-  char line[50];
-  cin.get(line, 50);
-  cout << line << endl;
+  char greeting[100];
+  cin.getline(greeting, 100, '.');
+  cout << greeting << endl;
+
+  char* foundIdx = strstr(company, greeting);
+  if (foundIdx != NULL) {
+    strcpy(greeting, "FOUNDED");
+  } else {
+    strcat(greeting, "NOT FOUNDED");
+  }
+
+  cout << greeting;
 
   return 0;
 }
