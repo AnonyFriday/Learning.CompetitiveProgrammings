@@ -28,6 +28,12 @@ bool isPowerOfTwo(const int& a) {
   return (a & (a - 1)) == 0;
 }
 
+// 1 number is power of two if
+bool isPowerOfTwo1(const int& a) {
+  // ! mean we flip the 0 back to 1, to demonstrate the result 0 is power of 2, and a && is the part to ignore the a = 0
+  return (a && !(a & (a - 1)));
+}
+
 int main() {
   // dont use scanf and printf, only cin and cout
   ios_base::sync_with_stdio(0);
@@ -40,6 +46,9 @@ int main() {
   cout << isPowerOfTwo(7) << endl;
   cout << isPowerOfTwo(2) << endl;
   cout << isPowerOfTwo(16) << endl;
+  cout << isPowerOfTwo1(0) << endl;
+  cout << isPowerOfTwo1(10) << endl;
+  cout << isPowerOfTwo1(16) << endl;
 
   return 0;
 }
