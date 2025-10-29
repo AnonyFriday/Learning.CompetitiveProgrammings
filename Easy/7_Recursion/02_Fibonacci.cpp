@@ -21,11 +21,21 @@ const double PI = acos(-1);
 
 // 0 1 1 2 3 5 8
 // currently think of 1-base number
-int fibonacii(int n) {
+// Time Compplexity: 2^n
+// - layer 1: 1 func call
+// - layer 2: 2 func call
+// - layer 3: 4 ...
+// - ......if n = 3 then we got 8 func calls
+
+// Space Complexity:
+// - depth of the tree
+// - e.g. if we got n = 5, then the deepest height of the tree will be 5
+// - hence, space complexity is N
+int fibonacci(int n) {
   if (n == 1) return 0;
   if (n == 2) return 1;
 
-  int ans = fibonacii(n - 1) + fibonacii(n - 2);
+  int ans = fibonacci(n - 1) + fibonacci(n - 2);
   return ans;
 }
 

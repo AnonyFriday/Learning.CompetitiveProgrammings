@@ -38,6 +38,7 @@ int binarySearch(int* arr, int n, int target) {
   int mid;
 
   while (l <= r) {
+    // davance formular to avoid integer overflow
     mid = l + (r - l) / 2;
 
     if (arr[mid] == target) {

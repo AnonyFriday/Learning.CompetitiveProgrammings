@@ -1,1 +1,0 @@
-"# _LEARNING_CompetiveProgramming" 

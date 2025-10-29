@@ -28,6 +28,7 @@ Slow
 Fazt
 15^2 = 15 * (8 + 4 + 2 + 1)
      = 15 * 8 + 15 * 4 + 15 * 2 + 15 * 1
+    =    1         1        1        1
 
 So O: is logn due to we destructure into binary 1s representation
 keep get the right most bit, if = 1 then last bit * 2^p, and p *= 2

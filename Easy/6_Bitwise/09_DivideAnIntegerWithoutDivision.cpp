@@ -33,6 +33,7 @@ int divide(int X, int Y) {
 
   int quotient = 0;
 
+  // keep minus until Y > X
   while (Y <= X) {
     X -= Y;
     quotient++;
