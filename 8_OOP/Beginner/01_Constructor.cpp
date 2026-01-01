@@ -35,11 +35,78 @@ int reverse(int n);
 int largest(int largestNum, int target);
 
 // = DO HERE ========================
-
-// 4 Topic
-// -
-
+// ===
 // ==================================
+
+class Product {
+ private:
+  int id;
+  string n;
+
+ public:
+  int mrp;
+  char* name;  // char name[100] is not assignable
+  int selling_price;
+
+  Product(){};
+
+  Product(int id, string n, char* name, int mrp, int selling_price) {
+    (*this).id = id;
+    this->n = n;
+    this->mrp = mrp;
+
+    this->name = new char[strlen(name) + 1];
+    strcpy(this->name, name);
+    this->selling_price = selling_price;
+  }
+
+  Product(const Product& X) {
+    (*this).id = X.id;
+    this->n = X.n;
+    this->mrp = X.mrp;
+    this->selling_price = X.selling_price;
+
+    this->name = new char[strlen(X.name) + 1];
+    strcpy(this->name, X.name);
+  }
+
+  void showDetails() {
+    cout << id << endl;
+    cout << n << endl;
+    cout << mrp << endl;
+    cout << name << endl;
+    cout << selling_price << endl;
+
+    cout << endl;
+  }
+
+  void setN(const string& newN) {
+    this->n = newN;
+  }
+
+  void setName(const char* newName) {
+    strcpy(this->name, newName);
+  }
+
+  // // Overding the assignment oeprator
+  // void operator=(Product& X) {
+  // (*this).id = X.id;
+  // this->n = X.n;
+  // this->mrp = X.mrp;
+  // this->selling_price = X.selling_price;
+  //
+  // this->name = new char[strlen(X.name) + 1];
+  // strcpy(this->name, X.name);
+  // }
+  //
+  // ~Product() {
+  // cout << "Deleteing" << name << endl;
+  // if (name != NULL) {
+  // delete[] name;
+  // name = NULL;
+  // }
+  // }
+};
 
 int main() {
   // dont use scanf and printf, only cin and cout
@@ -47,6 +114,30 @@ int main() {
 
   // no more automatically calling cout.flush()
   cin.tie(0);
+
+  // 1. Demonstration on the copy constructor
+  // shallow copy for the default setting
+  char name[] = "VU KIM DUYxcvxcv";
+
+  Product p1(1, "One", name, 12, 900);
+  Product p2 = p1;
+
+  strcpy(p2.name, "bla bla");
+
+  p1.showDetails();
+  p2.showDetails();
+
+  // 2. Demonstraction on assignment operator
+  // shallow copy for the default setting
+  Product p3;
+
+  p3 = p1;
+  p3.setN("I LOVE YOU");
+  char newName[] = "xxxxxxxxxxxxxxxxxxxxxxxf";
+  p3.setName(newName);
+
+  p1.showDetails();
+  p3.showDetails();
 
   return 0;
 }
@@ -121,6 +212,7 @@ int reverse(int n) {
 
   while (n > 0) {
     int digit = n % 10;
+
     res = res * 10 + digit;
     n /= 10;
   }
