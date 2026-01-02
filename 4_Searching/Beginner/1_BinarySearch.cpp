@@ -38,7 +38,12 @@ int binarySearch(int* arr, int n, int target) {
   int mid;
 
   while (l <= r) {
-    // davance formular to avoid integer overflow
+    // avoid integer overflow
+    // 1. left < right
+    // 2. 0 < right - left
+    // 3. as we know that left + (right - left) = right
+    // 4. we can see the bound of right is that left + (right - left)/2 <= right
+    // 5. Avoid overflow since the operations are bounded with right value
     mid = l + (r - l) / 2;
 
     if (arr[mid] == target) {
