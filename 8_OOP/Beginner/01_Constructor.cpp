@@ -13,7 +13,7 @@
 // #include <stack>
 // #include <unordered_map>
 // #include <vector>
-//
+
 using namespace std;
 
 const double E = 1e-8;
@@ -88,24 +88,24 @@ class Product {
     strcpy(this->name, newName);
   }
 
-  // // Overding the assignment oeprator
-  // void operator=(Product& X) {
-  // (*this).id = X.id;
-  // this->n = X.n;
-  // this->mrp = X.mrp;
-  // this->selling_price = X.selling_price;
-  //
-  // this->name = new char[strlen(X.name) + 1];
-  // strcpy(this->name, X.name);
-  // }
-  //
-  // ~Product() {
-  // cout << "Deleteing" << name << endl;
-  // if (name != NULL) {
-  // delete[] name;
-  // name = NULL;
-  // }
-  // }
+  // Overding the assignment oeprator
+  void operator=(Product& X) {
+    (*this).id = X.id;
+    this->n = X.n;
+    this->mrp = X.mrp;
+    this->selling_price = X.selling_price;
+
+    this->name = new char[strlen(X.name) + 1];
+    strcpy(this->name, X.name);
+  }
+
+  ~Product() {
+    cout << "Deleteing" << name << endl;
+    if (name != NULL) {
+      delete[] name;
+      name = NULL;
+    }
+  }
 };
 
 int main() {
