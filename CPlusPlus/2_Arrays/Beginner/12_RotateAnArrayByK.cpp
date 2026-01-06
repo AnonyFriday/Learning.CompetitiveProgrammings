@@ -4,6 +4,9 @@
 
 using namespace std;
 
+template <typename T>
+void reverse(vector<T>& arr, int start, int end);
+
 void printArrayCorrect(int* arr, int n) {
   cout << "In Function 3: " << n << endl;
   for (int i = 0; i < n; i++) {
@@ -46,6 +49,27 @@ void rotateByK(int* arr, int n, int k) {
 
   // remove the heap array in memory
   delete[] b;
+}
+
+void rotateByKVector(vector<int>& arr, int k) {
+  if (arr.size() == 0) return;
+
+  int n = arr.size();
+  vector<int> result(n);
+
+  k %= n;
+
+  for (int i = 0; i < n; i++) {
+    int newIndex = (k + i) % n;
+    result[newIndex] = arr[i];
+  }
+
+  // This is the deep copy from copy assignment
+  // Not pointing to object result, since vector is the value type
+  // arr = result;
+
+  // or you can use std::move to swap internal pointer
+  arr = std::move(result);
 }
 
 /*
@@ -103,4 +127,16 @@ int main() {
   printArrayCorrect(b, N);
 
   return 0;
+}
+
+// Reverse an array of T element
+template <typename T>
+void reverse(vector<T>& arr, int start, int end) {
+  if (arr.size() == 0 || start < 0 || end >= arr.size()) return;
+
+  while (start < end) {
+    std::swap(arr[start], arr[end]);
+    start++;
+    end--;
+  }
 }
