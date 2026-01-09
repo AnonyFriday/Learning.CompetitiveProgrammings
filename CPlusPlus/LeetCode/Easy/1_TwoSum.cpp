@@ -11,7 +11,7 @@
 // #include <queue>
 // #include <set>
 // #include <stack>
-// #include <unordered_map>
+#include <unordered_map>
 // #include <vector>
 //
 using namespace std;
@@ -28,6 +28,9 @@ void outputVector(vector<T>& arr);
 template <typename T>
 void output2DVector(vector<vector<T>>& arr);
 
+template <typename T>
+void reverse(vector<T>& arr);
+
 // Maths
 int fact(int n);
 double calBinominalCoefficient(int n, int k);
@@ -36,14 +39,48 @@ int largest(int largestNum, int target);
 
 // = DO HERE ========================
 
+pair<int, int> twoSum(vector<int>& nums, int target) {
+  if (nums.size() == 0) return {-1, -1};
+
+  int n = nums.size();
+  if (n < 2 || n > 10000) return {-1, -1};
+
+  pair<int, int> result = {-1, -1};
+  unordered_map<int, int> dict = {};
+
+  for (int i = 0; i < n; i++) {
+    // find return an iterator
+    int complement = target - nums[i];
+    auto it = dict.find(complement);
+
+    if (it != dict.end()) {
+      return {it->second, i};
+    } else {
+      dict[nums[i]] = i;
+    }
+  }
+
+  return {-1, -1};
+}
+
 // ==================================
 
 int main() {
   // dont use scanf and printf, only cin and cout
   ios_base::sync_with_stdio(0);
 
-  // no more automatically calling cout.flush()
+  // no more automasstically calling cout.flush()
   cin.tie(0);
+
+  int target, n;
+  cin >> target >> n;
+
+  vector<int> nums(n);
+  inputVector(nums);
+  outputVector(nums);
+
+  auto pair = twoSum(nums, target);
+  cout << pair.first << " " << pair.second;
 
   return 0;
 }
@@ -123,4 +160,16 @@ int reverse(int n) {
   }
 
   return res;
+}
+
+// Reverse an array of T element
+template <typename T>
+void reverse(vector<T>& arr, int start, int end) {
+  if (arr.size() == 0 || start < 0 || end >= arr.size()) return;
+
+  while (start < end) {
+    std::swap(arr[start], arr[end]);
+    start++;
+    end--;
+  }
 }
