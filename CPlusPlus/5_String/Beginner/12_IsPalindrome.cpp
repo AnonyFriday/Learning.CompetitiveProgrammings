@@ -26,6 +26,7 @@ bool isPalindrome(string &s) {
   int j = s.size() - 1;
 
   while (i <= j) {
+    // isalnum and isalnum
     if (!isalnum(s[i]) && !isalnum(s[j])) {
       i++;
       j--;
