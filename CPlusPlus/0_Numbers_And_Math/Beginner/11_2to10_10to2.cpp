@@ -71,7 +71,7 @@ int main() {
 
   cout << decToBi(10) << endl;
   cout << biToDec(101) << endl;
-  cout << biStringToDec("101") << endl;
+  cout << biStringToDec("1011") << endl;
 
   return 0;
 }
