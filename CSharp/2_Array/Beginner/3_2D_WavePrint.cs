@@ -1,60 +1,38 @@
-using System.Data;
+using System;
+using System.Collections.Generic;
+using System.IO.Pipelines;
+using System.Linq;
 
 // ==================================
 // === CHANGE HERE
 // ==================================
 
-/*
-    We have 4 for loop per edge
-*/
-int[] PrintSprial(int[][] arr)
+int[] WavePrint(int[][] arr)
 {
-    List<int> result = new();
-
-    if (arr == null) return result.ToArray();
+    if (arr == null) return Array.Empty<int>();
 
     int rows = arr.Length;
     int cols = arr[0].Length;
+    bool isDown = true;
+    List<int> result = new List<int>();
 
-    int sRow = 0;
-    int eRow = rows - 1;
-    int sCol = 0;
-    int eCol = cols - 1;
-
-    while (sRow <= eRow && sCol <= eCol)
+    for (int c = cols - 1; c >= 0; c--)
     {
-        // top + the case sRow == eRow
-        for (int i = sCol; i <= eCol; i++)
+        if (isDown)
         {
-            result.Add(arr[sRow][i]);
+            for (int r = 0; r <= rows - 1; r++)
+            {
+                result.Add(arr[r][c]);
+            }
         }
-
-        // right + the case of sCol == eCol
-        for (int i = sRow + 1; i <= eRow; i++)
+        else
         {
-            result.Add(arr[i][eCol]);
+            for (int r = rows - 1; r >= 0; r--)
+            {
+                result.Add(arr[r][c]);
+            }
         }
-
-        // bottom
-        // - avoid duplicate
-        for (int i = eCol - 1; i >= sCol; i--)
-        {
-            if (sRow == eRow) break;
-            result.Add(arr[eRow][i]);
-        }
-
-        // left
-        // - avoid duplicate
-        for (int i = eRow - 1; i >= sRow + 1; i--)
-        {
-            if (sCol == eCol) break;
-            result.Add(arr[i][sCol]);
-        }
-
-        sRow++;
-        eRow--;
-        sCol++;
-        eCol--;
+        isDown = !isDown;
     }
 
     return result.ToArray();
@@ -67,7 +45,6 @@ int[] PrintSprial(int[][] arr)
 /*
     Input / Output
 */
-
 int[][] arr = new int[5][];
 
 for (int i = 0; i < 5; i++)
@@ -82,11 +59,9 @@ for (int i = 0; i < 5; i++)
 
 DurationTesting(() =>
 {
-    var result = PrintSprial(arr);
-
+    var result = WavePrint(arr);
     Output(result);
 });
-// DurationTesting(() => AlgorithmName(nums, true));
 
 // ==================================
 // === Utilities
@@ -102,16 +77,13 @@ void Swap<T>(ref T a, ref T b)
     b = temp;
 }
 
-/*
-    Output 2D Arrays
-*/
-void Output<T>(T[][] arr)
+void Output<T>(T[,] arr)
 {
-    foreach (T[] row in arr)
+    for (int i = 0; i < arr.GetLength(0); i++)
     {
-        foreach (T el in row)
+        for (int j = 0; j < arr.GetLength(1); j++)
         {
-            Console.Write(el + " ");
+            Console.Write(arr[i, j] + " ");
         }
         Console.WriteLine();
     }
