@@ -36,12 +36,17 @@ int largetSubArraySumI(int[] arr)
     //         i      j
     // [7,8] = sum to j - sum to i;
 
-    int[] prefixSum = new int[N];
-    prefixSum[0] = arr[0];
+    // If the prefix is 1-base
+    // sum[i, j] = pre[j + 1] - pre[i - 1 + 1];
+    // if the prefix is 0-base
+    // sum[i, j] = pre[j] - pre[i - 1];
 
-    for (int i = 1; i < N; i++)
+    int[] prefixSum = new int[N + 1];
+    prefixSum[0] = 0;
+
+    for (int i = 1; i <= N; i++)
     {
-        prefixSum[i] = prefixSum[i - 1] + arr[i];
+        prefixSum[i] = prefixSum[i - 1] + arr[i - 1];
     }
 
     for (int i = 0; i < N; i++)
@@ -49,16 +54,7 @@ int largetSubArraySumI(int[] arr)
         for (int j = i; j < N; j++)
         {
             int sumItoJ;
-
-            if (i > 0)
-            {
-                sumItoJ = prefixSum[j] - prefixSum[i - 1];
-            }
-            else
-            {
-                sumItoJ = prefixSum[j];
-            }
-
+            sumItoJ = prefixSum[j + 1] - prefixSum[i - 1 + 1];
             largestSum = int.Max(largestSum, sumItoJ);
         }
     }
@@ -119,5 +115,5 @@ int[] nums = input.Split(" ", StringSplitOptions.RemoveEmptyEntries)
 
 subArrayI(nums, no1, no2);
 Console.WriteLine("\n" + largetSubArraySumI(nums));
-Console.WriteLine("\n" + largetSubArraySumII(nums));
+Console.WriteLine("\n" + largetSubArraySumKadane(nums));
 
