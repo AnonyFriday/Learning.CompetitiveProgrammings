@@ -11,7 +11,7 @@
 // #include <queue>
 // #include <set>
 // #include <stack>
-#include <unordered_map>
+// #include <unordered_map>
 // #include <vector>
 //
 using namespace std;
@@ -20,7 +20,8 @@ const double E = 1e-8;
 const double PI = acos(-1);
 
 // Vectors
-void inputVector(vector<int>& arr);
+template <typename T>
+void inputVector(vector<T>& arr);
 
 template <typename T>
 void outputVector(vector<T>& arr);
@@ -39,49 +40,78 @@ int largest(int largestNum, int target);
 
 // = DO HERE ========================
 
-pair<int, int> twoSum(vector<int>& nums, int target) {
-  if (nums.size() == 0) return {-1, -1};
-
-  int n = nums.size();
-  if (n < 2 || n > 10000) return {-1, -1};
-
-  pair<int, int> result = {-1, -1};
-  unordered_map<int, int> dict = {};
-
-  for (int i = 0; i < n; i++) {
-    // find return an iterator
-    int complement = target - nums[i];
-    auto it = dict.find(complement);
-
-    if (it != dict.end()) {
-      return {it->second, i};
-    } else {
-      dict[nums[i]] = i;
-    }
-  }
-
-  return {-1, -1};
-}
-
 // ==================================
 
 int main() {
   // dont use scanf and printf, only cin and cout
   ios_base::sync_with_stdio(0);
 
-  // no more automasstically calling cout.flush()
+  // no more automatically calling cout.flush()
   cin.tie(0);
 
-  int target, n;
-  cin >> target >> n;
+  // b allocate n characters based on a, copy content into b's allocation
 
-  vector<int> nums(n);
-  inputVector(nums);
-  outputVector(nums);
+  std::string a = "Hello World";
+  std::string b = a;
 
-  auto pair = twoSum(nums, target);
-  cout << pair.first << " " << pair.second;
+  std::cout << "Content of a: " << a
+            << endl;
 
+  std::cout << "Content of b: " << b
+            << endl;
+
+  std::cout << "Memory Address of a: " << &a
+            << endl;
+
+  std::cout << "Memory Address of b: " << &b
+            << endl;
+
+  std::cout << "Internal Buffer of a: " << (void*)a.data()
+            << endl;
+
+  std::cout << "Internal Buffer of b: " << (void*)b.data()
+            << endl;
+
+  // c free its own memory, point to continuous memory of a
+  // and a pointers to the nullptr
+  // - make sure only 1 ownership of the coneinuous memory allocation
+
+  // - as you can see, the internal memory address of a and c are different, due to the behavior of SSO, short string stored at the stack object, instead allocated on the heap
+
+  std::cout << "Internal Buffer of a before move: " << (void*)a.data()
+            << endl;
+
+  std::string c = std::move(a);
+  std::cout << "Content of a: " << a << endl;
+  std::cout << "Content of c: " << c << endl;
+
+  std::cout << "Memory Address of a: " << &a << endl;
+  std::cout << "Memory Address of c: " << &c << endl;
+
+  std::cout << "Internal Buffer of a: " << (void*)a.data()
+            << endl;
+
+  std::cout << "Internal Buffer of c: " << (void*)c.data()
+            << endl;
+
+  // For large string, string store at the heap memory, not stack memory
+  std::string d = string(1000, 'A');
+  std::cout << "Internal Buffer of d before move: " << (void*)d.data()
+            << endl;
+
+  std::string e = std::move(d);
+
+  std::cout << "Content of d: " << d << endl;
+  std::cout << "Content of e: " << e << endl;
+
+  std::cout << "Memory Address of d: " << &d << endl;
+  std::cout << "Memory Address of e: " << &e << endl;
+
+  std::cout << "Internal Buffer of d: " << (void*)d.data()
+            << endl;
+
+  std::cout << "Internal Buffer of e: " << (void*)e.data()
+            << endl;
   return 0;
 }
 
@@ -91,7 +121,8 @@ int largest(int largestNum, int target) {
 }
 
 // Input Vector Array
-void inputVector(vector<int>& arr) {
+template <typename T>
+void inputVector(vector<T>& arr) {
   int i = 0;
   while (i < arr.size()) {
     cin >> arr[i];
