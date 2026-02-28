@@ -40,11 +40,32 @@ int largest(int largestNum, int target);
 
 // = DO HERE ========================
 
-// ==================================
-
+// this is not a closure,
+int x = 20;
 int comparerFunc(int a, int b) {
+  cout << "HERE: " << x++;
   return a > b;
 }
+
+// this is a function return an inner function with the closure
+auto makeAdder(int base) {
+  return [base](int x) {
+    return x + base;
+  };
+};
+
+// if you want to modify the closure's variable, using mutable
+// by default, you cannot modify the varialbe cuz const
+auto makePhone(std::string& prefix) {
+  int numberOfPhones = 0;
+  return [prefix, numberOfPhones](int number) mutable -> string {
+    numberOfPhones++;
+    std::string prefixStr = "CODE_" + to_string(numberOfPhones) + "_" + prefix;
+    return prefixStr + "-" + std::to_string(number);
+  };
+}
+
+// ==================================
 
 int main() {
   // dont use scanf and printf, only cin and cout
@@ -73,6 +94,41 @@ int main() {
   // 3. Passing a regular function as an argument
   std::sort(v.begin(), v.end(), comparerFunc);
   outputVector(v);
+
+  // 4. A closure capture x by reference, will directly affect the original x
+  int x = 300;
+  auto f = [&x](int lcs) {
+    cout << "Print x and lcs: " << x << ", " << lcs << endl;
+    x += 1000;
+    cout << "Print x and lcs: " << x << ", " << lcs << endl;
+  };
+
+  f(123);
+  f(123);
+
+  cout << "x after: " << x << endl;
+
+  // 5. A function return a function as a closure
+  // - remember that, returning a function doesn't mean a closure
+  // - closure is the object created when inner function capture outer function's variables
+  // - 1 closure created = 1 execution of the outer function
+
+  // 1 closure object
+  auto address1 = makeAdder(99)(100);
+
+  // 1 outer object
+  auto address2 = makeAdder(200)(100);
+
+  cout << address1 << "-" << address2 << endl;
+
+  // 6. A closure that modify the copied variable within closure from outer function's variables
+  // - both phone using the same closure from vn since makePhone is called only 1
+  std::string vnCode = "VN";
+  auto vn = makePhone(vnCode);
+  string myFriendPhone = vn(2412341);
+  string myMotherPhone = vn(2312412);
+
+  cout << myFriendPhone << " | " << myMotherPhone << endl;
 
   return 0;
 }
