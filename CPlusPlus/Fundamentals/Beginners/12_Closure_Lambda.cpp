@@ -40,29 +40,50 @@ int largest(int largestNum, int target);
 
 // = DO HERE ========================
 
-// this is not a closure,
+// 1. This is not a closure,
 int x = 20;
 int comparerFunc(int a, int b) {
   cout << "HERE: " << x++;
   return a > b;
 }
 
-// this is a function return an inner function with the closure
+// 2. This is a function return an inner function with the closure
 auto makeAdder(int base) {
   return [base](int x) {
     return x + base;
   };
 };
 
-// if you want to modify the closure's variable, using mutable
-// by default, you cannot modify the varialbe cuz const
-auto makePhone(std::string& prefix) {
+// 3. If you want to modify the closure's variable, using mutable
+// - By default, you cannot modify the varialbe cuz const
+auto makePhoneCaptureByValue(std::string& prefix) {
   int numberOfPhones = 0;
-  return [prefix, numberOfPhones](int number) mutable -> string {
+
+  // since capture by value, then numberOfPhones inside the closure is 0, not being affected by += 100
+  auto f = [prefix, numberOfPhones](int number) mutable -> string {
     numberOfPhones++;
     std::string prefixStr = "CODE_" + to_string(numberOfPhones) + "_" + prefix;
     return prefixStr + "-" + std::to_string(number);
   };
+
+  numberOfPhones += 100;
+  return f;
+}
+
+// 4. Capture by refernce
+auto makePhoneCaptureByReference(std::string& prefix) {
+  int numberOfPhones = 0;
+
+  // when calling (), numberOfPhones will be executing first from 0 to 100
+  // when calling second (), same original numberOfPhones is referenced and increated to 101
+  auto f = [prefix, &numberOfPhones](int number) mutable -> string {
+    numberOfPhones++;
+    std::string prefixStr = "CODE_" + to_string(numberOfPhones) + "_" + prefix;
+    return prefixStr + "-" + std::to_string(number);
+  };
+
+  numberOfPhones += 100;
+  return f;
 }
 
 // ==================================
@@ -113,10 +134,10 @@ int main() {
   // - closure is the object created when inner function capture outer function's variables
   // - 1 closure created = 1 execution of the outer function
 
-  // 1 closure object
+  // 1 unique closure object
   auto address1 = makeAdder(99)(100);
 
-  // 1 outer object
+  // 1 unique closure object
   auto address2 = makeAdder(200)(100);
 
   cout << address1 << "-" << address2 << endl;
@@ -124,11 +145,43 @@ int main() {
   // 6. A closure that modify the copied variable within closure from outer function's variables
   // - both phone using the same closure from vn since makePhone is called only 1
   std::string vnCode = "VN";
-  auto vn = makePhone(vnCode);
+  auto vn = makePhoneCaptureByValue(vnCode);
   string myFriendPhone = vn(2412341);
   string myMotherPhone = vn(2312412);
 
-  cout << myFriendPhone << " | " << myMotherPhone << endl;
+  cout << myFriendPhone << endl;
+  cout << myMotherPhone << endl;
+
+  // 7. 2 difference closure objected created, not using the same
+  std::string enCode = "EN";
+  auto vn1 = makePhoneCaptureByValue(vnCode);
+  auto en = makePhoneCaptureByValue(enCode);
+
+  string myFriendPhone1 = vn1(2412341);
+  string myMotherPhone1 = en(2312412);
+
+  cout << myFriendPhone1 << endl;
+  cout << myMotherPhone1 << endl;
+
+  // 8. Capture by reference, only 1 caching sharing the whole time, but still follow the rule of 1 closure object is created per outer's function execution
+  // - BUT the numberOfPhone dies after executing the inner function, so closure refernece to the destroy memory
+  // - Solution is to use the capture by value + mutable
+  auto vn2 = makePhoneCaptureByReference(vnCode);
+  string myFriendPhone2 = vn2(2412341);
+  string myMotherPhone2 = vn2(2312412);
+
+  cout << myFriendPhone2 << endl;
+  cout << myMotherPhone2 << endl;
+
+  // 9. Capture by reference, demonstratig each inner fucntion's execution has its own closure, but since capture by reference is dangerous on dangling reference, the value is unexpected
+  auto vn3 = makePhoneCaptureByReference(vnCode);
+  auto en2 = makePhoneCaptureByReference(enCode);
+
+  string myFriendPhone3 = vn3(2412341);
+  string myMotherPhone3 = en2(2312412);
+
+  cout << myFriendPhone3 << endl;
+  cout << myMotherPhone3 << endl;
 
   return 0;
 }
