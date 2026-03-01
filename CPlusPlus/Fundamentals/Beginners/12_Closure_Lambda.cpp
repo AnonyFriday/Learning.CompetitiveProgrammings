@@ -38,7 +38,9 @@ double calBinominalCoefficient(int n, int k);
 int reverse(int n);
 int largest(int largestNum, int target);
 
+// ==================================
 // = DO HERE ========================
+// ==================================
 
 // 1. This is not a closure,
 int x = 20;
@@ -86,7 +88,48 @@ auto makePhoneCaptureByReference(std::string& prefix) {
   return f;
 }
 
-// ==================================
+// 5. Capture by refernce with Smart Pointers
+auto makePhoneCaptureByReferenceSmart(std::string& prefix) {
+  std::unique_ptr<int> numberOfPhones = std::make_unique<int>(0);
+
+  // here, after first execution, the ptr is destroyed from the stack, but the object in heap still maintain and the owenership has been transfer since the first exeuction
+
+  /*
+
+        STACK                         HEAP
+        ------                        ------
+        numberOfPhones ───────────►  int(0)
+
+  */
+
+  (*numberOfPhones) += 100;
+
+  /*
+
+        Before move:
+        outer ptr ──► heap int
+
+        After move:
+        lambda ptr ─► heap int
+        outer ptr = nullptr
+        outer ptr in the stack has been destroyed
+
+  */
+
+  auto f = [prefix, numberOfPhones = std::move(numberOfPhones)](int number) mutable -> string {
+    (*numberOfPhones)++;
+
+    std::string prefixStr = "CODE_" + to_string(*numberOfPhones) + "_" + prefix;
+
+    return prefixStr + "-" + std::to_string(number);
+  };
+
+  // Since already move the ownership to the inner ptr, it will raise nullptr and cause runtime error
+
+  // (*numberOfPhones) += 100;
+
+  return f;
+}
 
 int main() {
   // dont use scanf and printf, only cin and cout
@@ -182,6 +225,11 @@ int main() {
 
   cout << myFriendPhone3 << endl;
   cout << myMotherPhone3 << endl;
+
+  // 10. Capture by refernece using smart pointer, maintain the smart pointer, same behavior just like JS or C++
+
+  auto vn4 = makePhoneCaptureByReferenceSmart(vnCode)(2222);
+  cout << vn4 << endl;
 
   return 0;
 }
