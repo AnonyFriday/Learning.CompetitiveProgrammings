@@ -226,10 +226,25 @@ int main() {
   cout << myFriendPhone3 << endl;
   cout << myMotherPhone3 << endl;
 
-  // 10. Capture by refernece using smart pointer, maintain the smart pointer, same behavior just like JS or C++
+  // 10. Capture by refernece using smart pointer, maintain the smart pointer, same behavior just like JS or C++, using the same closure object
 
-  auto vn4 = makePhoneCaptureByReferenceSmart(vnCode)(2222);
-  cout << vn4 << endl;
+  auto vn4 = makePhoneCaptureByReferenceSmart(vnCode);
+  string myFriendPhone4 = vn4(2412341);
+  string myMotherPhone4 = vn4(2312412);
+
+  cout << myFriendPhone4 << endl;
+  cout << myMotherPhone4 << endl;
+
+  // 11. Captue by refernece using smart point, difference closure object
+
+  auto vn5 = makePhoneCaptureByReferenceSmart(vnCode);
+  auto en5 = makePhoneCaptureByReferenceSmart(enCode);
+
+  string myFriendPhone5 = vn5(2412341);
+  string myMotherPhone5 = en5(2312412);
+
+  cout << myFriendPhone5 << endl;
+  cout << myMotherPhone5 << endl;
 
   return 0;
 }
