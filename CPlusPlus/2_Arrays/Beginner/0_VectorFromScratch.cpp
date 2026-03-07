@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
-#include <memory.h>
+
+#include "./CustomHeaders/MyVector.hpp"
 
 // #include <algorithm>
 // #include <cassert>
@@ -65,109 +66,6 @@ int largest(int largestNum, int target);
                                         - check if size >= capacity, then reallocate new array, double capacity and copy from originals
 
 */
-template <typename T>
-class Vector {
- private:
-  // Data Members
-  size_t sz;
-  size_t cp;
-  std::unique_ptr<T[]> data = nullptr;
-
-  // reallocate if size overload the capacity
-  void reallocate() {
-    if (sz < cp) return;
-
-    cp *= 2;
-    std::unique_ptr<T[]> newData = std::make_unique<T[]>(cp);
-    for (size_t i = 0; i < sz; i++) {
-      newData[i] = std::move(data[i]);
-    }
-
-    // data take back the ownership
-    data = std::move(newData);
-  }
-
- public:
-  // === Constructor ===
-  // Default Constructor
-  Vector()
-      : sz(0), cp(2), data(std::make_unique<T[]>(cp)) {
-  }
-
-  // Initializer List
-  Vector(std::initializer_list<T> list)
-      : sz(list.size()),
-        cp(list.size() * 2),
-        data(std::make_unique<T[]>(cp)) {
-    if (sz == 0) return;
-
-    size_t i = 0;
-
-    for (const auto& item : list) {
-      data[i++] = item;
-    }
-  }
-
-  // Destructor
-  ~Vector() {
-    data.reset();
-    std::cout << "Vector has been destroyed." << endl;
-  }
-
-  // === Methods ===
-  void push_back(T el) {
-    if (sz >= cp) {
-      reallocate();
-    }
-
-    data[sz++] = std::move(el);
-  }
-
-  T pop_back() {
-    if (sz == 0) {
-      throw std::out_of_range("Cannot pop from an empty vector!");
-    }
-
-    auto el = data[--sz];
-    return el;
-  }
-
-  size_t size() const {
-    return sz;
-  }
-
-  size_t capacity() const {
-    return cp;
-  }
-
-  const T* begin() const {
-    return &data[0];
-  }
-
-  const T* end() const {
-    return &data[sz];
-  }
-
-  // === Operators ===
-
-  // Regular: can read and write (vector[0] = 10)
-  T& operator[](size_t index) {
-    return data[index];
-  }
-
-  const T& operator[](size_t index) const {
-    return data[index];
-  }
-
-  // return only the value
-  T at(size_t index) const {
-    if (index >= sz) {
-      throw std::out_of_range("Index out of range");
-    }
-
-    return data[index];
-  }
-};
 
 // ==================================s
 
@@ -178,22 +76,22 @@ int main() {
   // no more automatically calling cout.flush()
   cin.tie(0);
 
-  Vector<int> v{1, 2, 3, 4};
-  const Vector<int> v2{9, 9, 9, 9};
+  MyVector<int> v{1, 2, 3, 4, 5};
+  const MyVector<int> v2{9, 9, 9, 9};
   std::cout << "Capacity before: " << v.capacity() << endl;
 
   std::cout << "Size before: " << v.size() << endl;
 
   std::cout << "Index 1 before: " << v[1] << endl;
 
-  v[1] = 200;
+  v[1] = 500;
 
   std::cout << "Index 1 after: " << v[1] << endl;
 
   // Not working since v2 is const object
   // v2[1] = 99;
 
-  v.push_back(99);
+  v.push_back(99999);
   v.push_back(99);
   v.push_back(99);
   v.push_back(99);
@@ -201,9 +99,20 @@ int main() {
   v.push_back(100);
   std::cout << "Size after push_back: " << v.size() << endl;
   std::cout << "Capacity after push_back: " << v.capacity() << endl;
+
   std::cout << "Index 9: " << v[9] << endl;
   v.pop_back();
+  v.pop_back();
   std::cout << "Size after pop_back: " << v.size() << endl;
+  std::cout << "Is Empty: " << v.isEmpty() << endl;
+  std::cout << "Front: " << v.front() << endl;
+  std::cout << "Back: " << v.back() << endl;
+
+  if (v.at(0).has_value()) {
+    std::cout << "At 0: " << v.at(0).value() << endl;
+  } else {
+    std::cout << "Cannot access at location 0" << endl;
+  }
 
   for (auto it = v.begin(); it != v.end(); it++) {
     std::cout << *it << " ";
