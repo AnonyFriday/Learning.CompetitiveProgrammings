@@ -1,3 +1,4 @@
 CSharp/*.txt
 CPlusPlus/**/executables/
-CPlusPlus/**/Beginner/*.in
+CPlusPlus/**/Sources/*.in
+CPlusPlus/**/Sources_2D/*.in
