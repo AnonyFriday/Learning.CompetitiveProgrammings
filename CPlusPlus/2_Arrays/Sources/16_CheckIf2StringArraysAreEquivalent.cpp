@@ -24,13 +24,19 @@ template <typename T>
 void inputVector(vector<T>& arr);
 
 template <typename T>
+void input2DVector(vector<vector<T>>& arr);
+
+template <typename T>
 void outputVector(vector<T>& arr);
 
 template <typename T>
 void output2DVector(vector<vector<T>>& arr);
 
 template <typename T>
-void reverse(vector<T>& arr);
+void reverse(vector<T>& arr, size_t start, size_t end);
+
+// Strings
+vector<string> split(const string& s, char delimitor);
 
 // Maths
 int fact(int n);
@@ -40,24 +46,50 @@ int largest(int largestNum, int target);
 
 // = DO HERE ========================
 
-vector<vector<int>> printPascal(int n) {
-  vector<vector<int>> result(n);
+/*
+        concatenate 2 strings
+        Time Complexity: O(n)
+        Space: 0(n)
+*/
+bool naive(vector<string>& arr1, vector<string>& arr2) {
+  if (arr1.size() == 0 || arr2.size() == 0) return false;
 
-  if (n <= 0) return result;
+  string s1, s2;
 
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j <= i; j++) {
-      // first and last
-      if (j == 0 || j == i) {
-        result[i].push_back(1);
-      } else {
-        int el = result[i - 1][j - 1] + result[i - 1][j];
-        result[i].push_back(el);
-      }
+  // concatenate
+  s1 = std::accumulate(arr1.begin(), arr1.end(), string{});
+  s2 = std::accumulate(arr2.begin(), arr2.end(), string{});
+
+  // then compare
+  return s1.compare(s2) == 0;
+};
+
+bool optimal(vector<string>& v1, vector<string>& v2) {
+  if (v1.empty() || v2.empty()) return false;
+
+  size_t i = 0, j = 0;    // index of vector
+  size_t p1 = 0, p2 = 0;  // index of str
+
+  while (i < v1.size() && j < v2.size()) {
+    if (v1[i][p1] != v2[j][p2]) return false;
+
+    // check next word in the vector, reset p, move i
+    p1++;
+    p2++;
+
+    if (p1 == v1[i].size()) {
+      p1 = 0;
+      i++;
+    }
+
+    if (p2 == v2[j].size()) {
+      p2 = 0;
+      j++;
     }
   }
 
-  return result;
+  // true when reaching at the end of both vector
+  return i == v1.size() && j == v2.size();
 }
 
 // ==================================
@@ -68,11 +100,19 @@ int main() {
 
   // no more automatically calling cout.flush()
   cin.tie(0);
-  int a;
-  cin >> a;
-  vector<vector<int>> result = printPascal(a);
 
-  output2DVector(result);
+  vector<string> s1(3);
+  vector<string> s2(8);
+
+  inputVector(s1);
+  inputVector(s2);
+
+  outputVector(s1);
+  outputVector(s2);
+
+  // result
+  cout << naive(s1, s2) << endl;
+  cout << optimal(s1, s2) << endl;
 
   return 0;
 }
@@ -85,7 +125,8 @@ int largest(int largestNum, int target) {
 // Input Vector Array
 template <typename T>
 void inputVector(vector<T>& arr) {
-  int i = 0;
+  size_t i = 0;
+
   while (i < arr.size()) {
     cin >> arr[i];
     i++;
@@ -120,6 +161,25 @@ void output2DVector(vector<vector<T>>& arr) {
     std::cout << endl;
   }
   std::cout << endl;
+}
+
+// Input 2D Vector array
+template <typename T>
+void input2DVector(vector<vector<T>>& arr) {
+  string line;
+
+  while (getline(cin, line, '\n')) {
+    vector<T> row;
+    auto parts = split(line, ',');
+    for (const string& el : parts) {
+      stringstream ss(el);
+      T value;
+      ss >> value;  // convert string to T
+      row.push_back(value);
+    }
+
+    arr.push_back(row);
+  }
 }
 
 // Calculate factorial
@@ -157,7 +217,7 @@ int reverse(int n) {
 
 // Reverse an array of T element
 template <typename T>
-void reverse(vector<T>& arr, int start, int end) {
+void reverse(vector<T>& arr, size_t start, size_t end) {
   if (arr.size() == 0 || start < 0 || end >= arr.size()) return;
 
   while (start < end) {
@@ -165,4 +225,19 @@ void reverse(vector<T>& arr, int start, int end) {
     start++;
     end--;
   }
+}
+
+// Split a string based on delimitor
+vector<string> split(const string& s, char delimitor) {
+  vector<string> result;
+
+  if (s.size() == 0) return result;
+
+  stringstream ss(s);
+  string word;
+  while (getline(ss, word, delimitor)) {
+    result.push_back(word);
+  }
+
+  return result;
 }
