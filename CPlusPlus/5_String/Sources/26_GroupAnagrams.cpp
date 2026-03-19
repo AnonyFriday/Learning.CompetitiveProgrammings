@@ -13,7 +13,7 @@
 // #include <stack>
 // #include <unordered_map>
 // #include <vector>
-
+//
 using namespace std;
 
 const double E = 1e-8;
@@ -48,60 +48,132 @@ int largest(int largestNum, int target);
 // = DO HERE ========================
 
 /*
+        Provide a custom hash function for the mask array
+        instead of converting to string or integer
 
-Using Sliding Window + HashSet
-- 1 pointer to mark the staring of the word: wI
-- 1 pointer to check the consecutive characters
+bucket0
+bucket1 → [key,value]
+bucket2
+bucket3 → [key,value]
+bucket4 → [key,value]
+
 */
-int lengthOfLongestSubstring(const string& s) {
-  if (s.empty()) return 0;
 
-  size_t r = 0;
-  size_t l = 0;
-  size_t maxLength = 0;
-  unordered_set<char> uqs;
+struct CustomHasher {
+  std::size_t operator()(const array<int, 26>& mask) const {
+    size_t h = 0;
 
-  // a bit n^n here due to finding in set
-  while (r < s.size()) {
-    // if in the set, loop until r < l and seen + 1
-    while (uqs.find(s[r]) != uqs.end() && l < r) {
-      uqs.erase(s[l]);
-      l++;
+    for (const size_t& el : mask) {
+      h = h * 31 + el;
     }
 
-    uqs.insert(s[r]);
-    maxLength = std::max(r - l + 1, maxLength);
-    r++;
+    return h;
+  }
+};
+
+vector<vector<string>> naive2(
+    const vector<string>& strs) {
+  vector<vector<string>> result;
+
+  if (strs.empty()) return result;
+
+  unordered_map<array<int, 26>, vector<string>, CustomHasher> groups;
+
+  for (const string& str : strs) {
+    // create the mask key as defined in the hasher
+    array<int, 26> mask{};
+
+    for (size_t i = 0; i < str.size(); i++) {
+      mask[str[i] - 'a']++;
+    }
+
+    groups[mask].push_back(str);
   }
 
-  return maxLength;
+  for (auto& [key, g] : groups) {
+    result.push_back(g);
+  }
+
+  return result;
 }
 
 /*
-        Using Vector as frequency array
+        Using frequency vector to reduce the time complexity for sorting
+        Time complexity: nk
+        Space complexity: nk
+
 */
-int lengthOfLongestSubstring1(const string& s) {
-  if (s.empty()) return 0;
 
-  size_t r = 0;
-  size_t l = 0;
-  size_t maxLength = 0;
-  vector<char> freq(256, 0);
-
-  // a bit n^n here due to finding in set
-  while (r < s.size()) {
-    // keep deduction until the occurence of s[r] is 0
-    while (freq[s[r]] > 0 && l < r) {
-      freq[s[l]]--;
-      l++;
-    }
-
-    freq[s[r]]++;
-    maxLength = std::max(r - l + 1, maxLength);
-    r++;
+string strToBinary(const string& str) {
+  vector<int> mask(26, 0);
+  for (size_t i = 0; i < str.size(); i++) {
+    mask[str[i] - 'a']++;
   }
 
-  return maxLength;
+  string result;
+  for (const size_t& el : mask) {
+    result += el;
+  }
+
+  return result;
+}
+
+vector<vector<string>> naive1(
+    const vector<string>& strs) {
+  vector<vector<string>> result;
+
+  if (strs.empty()) return result;
+
+  unordered_map<string, vector<string>> groups;
+
+  // sorting each string in the array
+  for (string str : strs) {
+    const string mask = strToBinary(str);
+    if (groups.find(mask) == groups.end()) {
+      vector<string> g;
+      groups[mask] = g;
+    }
+
+    groups[mask].push_back(str);
+  }
+
+  for (auto& [key, g] : groups) {
+    result.push_back(g);
+  }
+
+  return result;
+}
+
+/*
+        Time Complexity: nklogk
+        Space complexity: nk
+*/
+vector<vector<string>> naive(
+    const vector<string>& strs) {
+  vector<vector<string>> result;
+
+  if (strs.empty()) return result;
+
+  unordered_map<string, vector<string>> groups;
+
+  // sorting each string in the array
+  for (string str : strs) {
+    // klogk
+    string sorted = str;
+    std::sort(sorted.begin(), sorted.end());
+
+    if (groups.find(sorted) == groups.end()) {
+      vector<string> g;
+      groups[sorted] = g;
+    }
+    groups[sorted].push_back(str);
+  }
+
+  for (auto& [key, g] : groups) {
+    result.push_back(g);
+  }
+
+  return result;
 }
 
 // ==================================
@@ -113,10 +185,16 @@ int main() {
   // no more automatically calling cout.flush()
   cin.tie(0);
 
-  string s;
-  getline(cin, s, '\n');
-  cout << lengthOfLongestSubstring(s) << endl;
-  cout << lengthOfLongestSubstring1(s) << endl;
+  vector<string> v;
+  inputVector(v);
+
+  // logic
+  auto result = naive(v);
+  auto result1 = naive1(v);
+  auto result2 = naive2(v);
+  output2DVector(result);
+  output2DVector(result1);
+  output2DVector(result2);
 
   return 0;
 }

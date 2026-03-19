@@ -13,7 +13,7 @@
 // #include <stack>
 // #include <unordered_map>
 // #include <vector>
-
+//
 using namespace std;
 
 const double E = 1e-8;
@@ -47,63 +47,6 @@ int largest(int largestNum, int target);
 
 // = DO HERE ========================
 
-/*
-
-Using Sliding Window + HashSet
-- 1 pointer to mark the staring of the word: wI
-- 1 pointer to check the consecutive characters
-*/
-int lengthOfLongestSubstring(const string& s) {
-  if (s.empty()) return 0;
-
-  size_t r = 0;
-  size_t l = 0;
-  size_t maxLength = 0;
-  unordered_set<char> uqs;
-
-  // a bit n^n here due to finding in set
-  while (r < s.size()) {
-    // if in the set, loop until r < l and seen + 1
-    while (uqs.find(s[r]) != uqs.end() && l < r) {
-      uqs.erase(s[l]);
-      l++;
-    }
-
-    uqs.insert(s[r]);
-    maxLength = std::max(r - l + 1, maxLength);
-    r++;
-  }
-
-  return maxLength;
-}
-
-/*
-        Using Vector as frequency array
-*/
-int lengthOfLongestSubstring1(const string& s) {
-  if (s.empty()) return 0;
-
-  size_t r = 0;
-  size_t l = 0;
-  size_t maxLength = 0;
-  vector<char> freq(256, 0);
-
-  // a bit n^n here due to finding in set
-  while (r < s.size()) {
-    // keep deduction until the occurence of s[r] is 0
-    while (freq[s[r]] > 0 && l < r) {
-      freq[s[l]]--;
-      l++;
-    }
-
-    freq[s[r]]++;
-    maxLength = std::max(r - l + 1, maxLength);
-    r++;
-  }
-
-  return maxLength;
-}
-
 // ==================================
 
 int main() {
@@ -113,10 +56,24 @@ int main() {
   // no more automatically calling cout.flush()
   cin.tie(0);
 
-  string s;
-  getline(cin, s, '\n');
-  cout << lengthOfLongestSubstring(s) << endl;
-  cout << lengthOfLongestSubstring1(s) << endl;
+  // Not ~: 1's complement
+  // The real reason we want +1 in 2's complement is because we want x + (-x) = 0
+  int x = 5;
+  int y = ~x + 1;
+
+  int zero = 0;
+  int notZero = ~zero;
+
+  cout << x << " | " << y << endl;
+  cout << zero << " | " << notZero << endl;
+  cout << "~5 = " << ~5 << endl;
+
+  // Right and Left Shift
+  // - Right Shift: if signed, then 1, if unsigned then 0
+  // - Left Shift:
+  int a = -5;
+  cout << (a << 20) << endl;
+  cout << (a >> 10) << endl;
 
   return 0;
 }

@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 
+#include <bitset>
+
 // #include <algorithm>
 // #include <cassert>
 // #include <climits>
@@ -19,6 +21,18 @@ using namespace std;
 const double E = 1e-8;
 const double PI = acos(-1);
 
+/*
+        Group of operations:
+        - get ith
+        - set ith (force ith to 1)
+        - clear ith (force ith to 0)
+        - update ith
+        - clear bits in range
+        - clear last i bits
+        - replace bits
+
+*/
+
 // get ith bit
 // 1100 1011
 //      i   I want to get bit at location i
@@ -27,8 +41,8 @@ const double PI = acos(-1);
 //		0000 1000
 // using &, if > 0, then we know that number > 0, then that i is 1
 // else, number == 0, thnen that i is 0
-int getIthBit(int n, int i) {
-  int mask = (1 << i);
+int getIthBit(const int &n, const int &i) {
+  const int mask = (1 << i);
   return (n & mask) > 0 ? 1 : 0;
 }
 
@@ -101,6 +115,27 @@ void clearBitsInRange(int &n, int i, int j) {
   int mask = A | B;
 
   n = n & mask;
+}
+
+void clearBitsInRange1(int &n, int a, int b) {
+  if (a <= 0 || b >= 32) return;
+
+  int right = -1 << b;          // keep bits > b
+  int left = ~(-1 << (a - 1));  // keep bits < (a-1)
+  int mask = left | right;
+
+  n &= mask;
+}
+
+void replaceBitsInRange(int i, int j, int m, int &n) {
+  if (i <= 0 || j >= 32 || i > j) return;
+
+  // clear in n
+  clearBitsInRange1(n, i, j);
+
+  // set m to n
+  int mask = m << (i - 1);
+  n |= mask;
 }
 
 int main() {
@@ -208,6 +243,23 @@ int main() {
        << "\n";
   cout << "Resulting n2 = " << n2 << " (Binary: 0101 0000)"
        << "\n";  // n2 is 80
+
+  // Clear bits in range
+  int f = 0b00000000'00000000'00000000'10110111;
+  cout << "Original f: " << f << endl;
+  cout << "In Binary: " << std::bitset<8>(f) << endl;
+  clearBitsInRange1(f, 1, 7);
+  cout << "After in Binary: " << std::bitset<8>(f) << endl;
+
+  // Replace bits in range
+  int k = 0b1111'0011;
+  int k1 = 0b010;
+
+  cout << "Before replace: " << std::bitset<8>(k) << endl;
+
+  replaceBitsInRange(2, 4, k1, k);
+
+  cout << "After replace: " << std::bitset<8>(k) << endl;
 
   return 0;
 }

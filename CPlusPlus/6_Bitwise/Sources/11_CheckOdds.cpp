@@ -26,14 +26,20 @@ const double PI = acos(-1);
 4 0000 0100
 5 0000 0101
 
-
 -> as you can see, the last digit is always 1 for odd, 0 or even
 -> so if we can extract the right most digit is 1, we can refer it as odd, vice versa
+
+        Time Complexity:
+        Space Complexity:
 
 */
 
 bool isOdd(const int& a) {
   return (a & 1) == 1;
+}
+
+bool isEven(const int& a) {
+  return (a & 1) == 0;
 }
 
 int main() {
@@ -44,8 +50,10 @@ int main() {
   cin.tie(0);
 
   int a = 1;
+  int b = 2;
 
-  cout << isOdd(a);
+  cout << isOdd(a) << endl;
+  cout << isEven(b);
 
   return 0;
 }

@@ -35,7 +35,59 @@ int reverse(int n);
 
 // = DO HERE ========================
 
-// a ^ b
+// pow for negative
+double powNegative(double a, long int b) {
+  if (b == 0) return 1;
+  if (b == 1) return a;
+
+  double result = 1;
+  double base = a;
+
+  // handle negative
+  if (b < 0) {
+    base = 1 / base;
+    b = -b;
+  }
+
+  while (b > 0) {
+    // check b last bit is 1, then accumualte to the result
+
+    if ((b & 1) > 0) {
+      result *= base;
+    }
+
+    // keep accumulate
+    base *= base;
+    b >>= 1;
+  }
+
+  return result;
+}
+
+// pow for positive
+double powPositive(double a, long int b) {
+  // edge case
+  if (b == 0) return 1;
+  if (b == 1) return a;
+
+  double result = 1.0f;
+  size_t i = a;
+
+  // handle positive
+  while (b > 0) {
+    // check last bit
+    if ((b & 1) > 0) {
+      result *= i;
+    }
+
+    i *= i;   // accumulate
+    b >>= 1;  // next bit
+  }
+
+  return result;
+}
+
+// a ^ b for negative and positive b
 double pow(double a, long int b) {
   if (b == 0) return 1;
   if (b == 1) return a;
@@ -84,7 +136,9 @@ int main() {
   cin.tie(0);
 
   cout << pow(4, 4) << endl;
+  cout << powPositive(4, 4) << endl;
   cout << pow(4, -2) << endl;
+  cout << powNegative(4, -2) << endl;
 
   return 0;
 }
