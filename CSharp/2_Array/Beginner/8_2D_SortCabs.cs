@@ -46,13 +46,17 @@ while (!string.IsNullOrEmpty(line = Console.ReadLine()))
 }
 
 // Logic
-var result = SortCabs(cabs);
-
-// Output
-foreach (var pair in result)
+DurationTesting(() =>
 {
-    Console.WriteLine($"({pair.Item1},{pair.Item2})");
-}
+    var result = SortCabs(cabs);
+
+    foreach (var pair in result)
+    {
+        Console.WriteLine($"({pair.Item1},{pair.Item2})");
+
+    }
+});
+
 
 // DurationTesting(() => AlgorithmName(nums, true));
 // Output(nums);
