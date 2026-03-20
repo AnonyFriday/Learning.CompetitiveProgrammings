@@ -30,8 +30,8 @@ long long unsigned convertToBinary(int n) {
   if (n == 0 || n == 1) return n;
 
   int answer = 0;
-  int p = 1;  // location of each bit
-
+  int p = 1;  // storing next position of the next bit
+              // at the left most bit
   while (n > 0) {
     // if last bit > 0, then it's 1, else 0
     int lastBit = (n & 1) > 0;
@@ -69,7 +69,7 @@ int main() {
   // no more automatically calling cout.flush()
   cin.tie(0);
 
-  cout << convertToBinary(10) << endl;
+  cout << convertToBinary(-10) << endl;
   cout << convertToBinaryString(123) << endl;
   cout << convertToBinary(1) << endl;
   cout << convertToBinaryString(0) << endl;
