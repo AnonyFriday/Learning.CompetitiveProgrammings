@@ -51,13 +51,13 @@ int largest(int largestNum, int target);
         Fomular for modulues exponentiation
         (a*b)%c = ((a%c)*(b%c))%c
 */
-long long int modular(int a, int b, int mod) {
+long long int modulo(int a, int b, int mod) {
   if (a == 0) return 0;
   if (b == 0) return 1;
   if (b == 1) return a % mod;
 
   long long int res = 1;
-  int base = a;
+  long long int base = a;
   while (b > 0) {
     if ((b & 1) > 0) {
       // OVERFLOW
@@ -87,7 +87,7 @@ int main() {
 
   int a, b, mod;
   cin >> a >> b >> mod;
-  cout << modular(a, b, mod);
+  cout << modulo(a, b, mod);
 
   return 0;
 }
