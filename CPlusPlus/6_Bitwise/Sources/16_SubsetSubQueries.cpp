@@ -18,6 +18,7 @@ using namespace std;
 
 const double E = 1e-8;
 const double PI = acos(-1);
+const int MAXSUM = 10001;
 
 // Vectors
 template <typename T>
@@ -46,6 +47,28 @@ int reverse(int n);
 int largest(int largestNum, int target);
 
 // = DO HERE ========================
+
+vector<bool> subsetSumBitset(vector<int> num, vector<int> query) {
+  // using preprocessor MAXSUM
+  bitset<MAXSUM> preSums;
+  preSums[0] = 1;
+
+  for (int x : num) {
+    // {0,2} and {0,2} + 3 = {3,5} --> {0,2,3,5}
+    // shifting meaning we add 3 to 0 and 2
+    preSums |= (preSums << x);
+  }
+
+  vector<bool> result;
+  for (int q : query) {
+    if (q >= MAXSUM)
+      result.push_back(false);
+    else
+      result.push_back(preSums[q]);
+  }
+
+  return result;
+}
 
 /*
 
@@ -84,8 +107,6 @@ vector<bool> subsetSum(vector<int> num, vector<int> query) {
     }
   }
 
-  outputVector(preSums);
-
   return results;
 }
 
@@ -106,7 +127,9 @@ int main() {
   inputVector(query);
 
   auto result = subsetSum(num, query);
+  auto result1 = subsetSumBitset(num, query);
   outputVector(result);
+  outputVector(result1);
 
   return 0;
 }
