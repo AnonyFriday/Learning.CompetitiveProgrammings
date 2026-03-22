@@ -53,7 +53,9 @@ bool isSortedArray(const vector<int>& arr,
   if (i == arr.size() - 1) return true;
 
   // if true, then keep checking next pair, else return false
-  if (isAsc && (arr[i] <= arr[i + 1]) && isSortedArray(arr, i + 1)) {
+  if (isAsc && (arr[i] <= arr[i + 1]) && isSortedArray(arr, i + 1, isAsc)) {
+    return true;
+  } else if (!isAsc && (arr[i] > arr[i + 1]) && isSortedArray(arr, i + 1, isAsc)) {
     return true;
   }
 
@@ -71,7 +73,7 @@ int main() {
 
   outputVector(arr);
 
-  cout << isSortedArray(arr) << endl;
+  cout << isSortedArray(arr, 0, false) << endl;
 
   // no more automatically calling cout.flush()
   cin.tie(0);
