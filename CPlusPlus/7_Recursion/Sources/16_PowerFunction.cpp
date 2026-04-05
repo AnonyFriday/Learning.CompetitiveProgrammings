@@ -84,7 +84,7 @@ long long int powExpo(int a, int n) {
   if (n % 2 == 0) {
     return squaredHalf;
   }
-  return squaredHalf * half;
+  return squaredHalf * a;
 }
 
 // ==================================
