@@ -47,14 +47,44 @@ int largest(int largestNum, int target);
 
 // = DO HERE ========================
 
-vector<int> increasingNumbers(int N) {
-  if (N <= 0) return {};
+/*
+        Space: n
+        Time: n
+*/
+long long int pow(int a, int n) {
+  if (n == 0) return 1;
+  if (n == 1) return a;
 
-  // when reaching to the end of the callstack, create an empty vector and push 1 to it
-  vector<int> results = increasingNumbers(N - 1);
-  results.push_back(N);
+  long long int result = a * pow(a, n - 1);
 
-  return results;
+  return result;
+}
+
+/*
+        Time:
+        - With n = 16, we got 4 step ==> O(logn)
+
+        Space:
+        - logn
+
+*/
+long long int powExpo(int a, int n) {
+  if (n == 0) return 1;
+  if (n == 1) return a;
+
+  // if n is even
+  // a^n = a^(n/2) * a^(n/2)
+
+  // if n is odd
+  // a^n = a * a^(n/2) * a^(n/2)
+
+  long long int half = powExpo(a, n / 2);
+  long long int squaredHalf = half * half;
+
+  if (n % 2 == 0) {
+    return squaredHalf;
+  }
+  return squaredHalf * half;
 }
 
 // ==================================
@@ -66,11 +96,11 @@ int main() {
   // no more automatically calling cout.flush()
   cin.tie(0);
 
-  int N;
-  cin >> N;
-  auto results = increasingNumbers(N);
+  int a, n;
 
-  outputVector(results);
+  cin >> a >> n;
+  cout << pow(a, n) << endl;
+  cout << powExpo(a, n) << endl;
 
   return 0;
 }
