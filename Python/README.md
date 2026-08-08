@@ -247,6 +247,7 @@ import sys, os
 - ✅ 8. Pack and Unpack
   - Pack: group multiple values into single tuple/list
   - Unpack: extract values from tuple/list into multiple variables
+  - Dict unpacking (`**`): keys must be strings matching function parameter names
 
   ```py
   # Tuple / List Packing
@@ -278,6 +279,32 @@ import sys, os
   packed = struct.pack('i h', 1000, 5)  # bytes
   val1, val2 = struct.unpack('i h', packed)  # 1000, 5
   ```
+
+- ✅ 9. Collection Datatypes & List Operations
+  - **4 Main Collection Data Types:**
+    - **List `[]`**: Ordered, mutable, allows duplicates.
+    - **Tuple `()`**: Ordered, immutable, allows duplicates.
+    - **Set `{}`**: Unordered, un-indexed, mutable (can add/remove), NO duplicates.
+    - **Dictionary `{k: v}`**: Ordered (Py 3.7+), mutable, keyed, NO duplicate keys.
+
+  - **List Operations & Methods Summary:**
+    - **Create**: `lst = []` or `lst = list()`
+    - **Access**: Positive indexing `lst[0]`, Negative indexing `lst[-1]`
+    - **Slicing**: `lst[start:end:step]` (e.g. `lst[::-1]` reverses list)
+    - **Unpack**: `a, b, *rest = lst`
+    - **Modify / Add**: `lst[0] = val`, `lst.append(item)`, `lst.insert(index, item)`, `lst.extend(other_lst)`
+    - **Remove**: `lst.remove(item)` (by value), `lst.pop(index)` (by index, default last), `del lst[index]`, `lst.clear()`
+    - **Utility**: `len(lst)`, `lst.copy()`, `lst.count(item)`, `lst.index(item)`
+    - **Sort & Reverse**: `lst.reverse()`, `lst.sort(reverse=True)` (in-place), `sorted(lst)` (returns new list)
+
+  - **Tuple Operations & Characteristics Summary:**
+    - **Characteristics**: Immutable (unchangeable), ordered, allows duplicate elements.
+    - **Creation**: `tpl = ()`, `tpl = tuple()`, single item needs comma: `tpl = (1,)` or `1,`
+    - **Access & Slicing**: Indexing `tpl[0]`, `tpl[-1]`, Slicing `tpl[1:3]` (returns new tuple)
+    - **Built-in Methods**: Only two: `tpl.count(item)` and `tpl.index(item)`
+    - **Join & Search**: Concatenate `tpl1 + tpl2`, Check existence `'item' in tpl`
+    - **Delete**: `del tpl` (deletes entire tuple variable; individual item deletion forbidden)
+    - **Mutation Workaround**: Convert to list `lst = list(tpl)`, modify, convert back `tpl = tuple(lst)`
 
 ## Phase 2: Advanced CP Topics
 
