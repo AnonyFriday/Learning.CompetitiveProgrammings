@@ -156,14 +156,92 @@ import sys, os
 
     ```
 
-- ✅ 5. If/else
+- ✅ 5. String Methods
+  - Case Conversion
+    - `capitalize()`
+    - `casefold()`
+    - `lower()`
+    - `upper()`
+    - `swapcase()`
+    - `title()`
+  - Search & Inspection
+    - `count()`
+    - `find()`
+    - `rfind()`
+    - `index()`
+    - `rindex()`
+    - `startswith()`
+    - `endswith()`
+  - Splitting & Joining
+    - `join()`
+    - `partition()`
+    - `rpartition()`
+    - `split()`
+    - `rsplit()`
+    - `splitlines()`
+  - Alignment & Padding
+    - `center()`
+    - `ljust()`
+    - `rjust()`
+    - `zfill()`
+    - `expandtabs()`
+  - Trimming & Modification
+    - `strip()`
+    - `lstrip()`
+    - `rstrip()`
+    - `replace()`
+    - `maketrans()`
+    - `translate()`
+  - String Validation
+    - `isalnum()`
+    - `isalpha()`
+    - `isascii()`
+    - `isdecimal()`
+    - `isdigit()`
+    - `isidentifier()`
+    - `islower()`
+    - `isnumeric()`
+    - `isprintable()`
+    - `isspace()`
+    - `istitle()`
+    - `isupper()`
+  - Formatting & Encoding
+    - `format()`
+    - `format_map()`
+    - `encode()`
+
+- ✅ 6. If/else
   - If/else
   - If/elif/else
 
-- ✅ 6. Match/case - Switch/case
+- ✅ 7. Match/case - Switch/case
 
   ```py
+  def check_status(code: int) -> str:
+      match code:
+          case 200:
+              return "OK"
+          case 404:
+              return "Not Found"
+          case 500:
+              return "Server Error"
+          case _:
+              return "Unknown"
+  ```
 
+  - Advanced Sequence & Pattern Matching (`case [...]`)
+
+  ```py
+  def process_command(command: list[str]) -> None:
+      match command:
+          case ["quit"]:
+              print("Exiting...")
+          case ["go", direction] if direction in ["north", "south", "east", "west"]:
+              print(f"Heading {direction}")
+          case ["say", *words]:
+              print(f"Message: {' '.join(words)}")
+          case _:
+              print("Unknown command")
   ```
 
 ## Phase 2: Advanced CP Topics
