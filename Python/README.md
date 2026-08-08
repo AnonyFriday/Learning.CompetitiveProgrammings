@@ -244,6 +244,41 @@ import sys, os
               print("Unknown command")
   ```
 
+- ✅ 8. Pack and Unpack
+  - Pack: group multiple values into single tuple/list
+  - Unpack: extract values from tuple/list into multiple variables
+
+  ```py
+  # Tuple / List Packing
+  point = 10, 20, 30  # tuple (10, 20, 30)
+
+  # Tuple / List Unpacking
+  x, y, z = point  # x=10, y=20, z=30
+
+  # Extended Unpacking with *
+  first, *middle, last = [1, 2, 3, 4, 5]  # first=1, middle=[2, 3, 4], last=5
+
+  # Function Arg Packing (*args, **kwargs)
+  def add_all(*numbers):
+      return sum(numbers)
+
+  # Function Arg Unpacking
+  def display(a, b, c):
+      print(a, b, c)
+
+  args = [1, 2, 3]
+  display(*args)  # 1 2 3
+
+  kwargs = {'a': 10, 'b': 20, 'c': 30}
+  display(**kwargs)  # 10 20 30
+
+  # Binary Struct Pack & Unpack (struct module)
+  import struct
+
+  packed = struct.pack('i h', 1000, 5)  # bytes
+  val1, val2 = struct.unpack('i h', packed)  # 1000, 5
+  ```
+
 ## Phase 2: Advanced CP Topics
 
 ## Phase 3: Machine Learning & Data Science Prep
