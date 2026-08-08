@@ -111,20 +111,60 @@ import sys, os
 
 - ✅ 3. Primitive & Non-primitive Types
 
-  | Type          | Data Types | Example                 | Immutability |
-  | ------------- | ---------- | ----------------------- | ------------ |
-  | Primitive     |            |                         | -            |
-  |               | Integer    | x = 1                   | Immutable    |
-  |               | Float      | x = 2.5                 | Immutable    |
-  |               | String     | str = "Python is great" | Immutable    |
-  |               | Boolean    | x = True                | Immutable    |
-  | Non-primitive |            |                         | -            |
-  |               | List - []  | x = [1,2,3,4]           | Mutable      |
-  |               | Dictionary | {"key1": 1, "key2": 2}  | Mutable      |
-  |               | Set - {}   | {1,2,3}                 | Mutable      |
-  |               | Tuple - () | x = (1,2,3,4)           | Immutable    |
-  |               | Frozen Set |                         | Immutable    |
-  | None          |            | x = None                |              |
+  | Type          | Data Types         | Example                 | Immutability |
+  | ------------- | ------------------ | ----------------------- | ------------ |
+  | Primitive     |                    |                         | -            |
+  |               | int                | x = 1                   | Immutable    |
+  |               | float              | x = 2.5                 | Immutable    |
+  |               | str                | str = "Python is great" | Immutable    |
+  |               | bool               | x = True                | Immutable    |
+  |               | complex            | x = 2 + 3j              | Immutable    |
+  | Non-primitive |                    |                         | -            |
+  |               | list[int]          | x = [1,2,3,4]           | Mutable      |
+  |               | dict[int, str]     | {"key1": 1, "key2": 2}  | Mutable      |
+  |               | set[int]           | {1,2,3}                 | Mutable      |
+  |               | tuple[int,int,int] | x = (1,2,3)             | Immutable    |
+  |               | Frozen Set         |                         | Immutable    |
+  | None          |                    | x = None                |              |
+
+- ✅ 4. Modify Variables
+  - normal
+  - global
+  - nonlocal
+
+    ```py
+
+      x = "global_var"
+
+      def outer1() -> str:
+          x = "enclosing_var"
+
+          def use_global() -> None:
+              global x
+              x = "changed_global"
+
+          def use_nonlocal() -> None:
+              nonlocal x
+              x = "changed_nonlocal"
+          use_global()
+          use_nonlocal()
+          return x
+
+      print(x) # global_var
+      print(outer1()) # changed_nonlocal
+      print(x) # changed_global
+
+    ```
+
+- ✅ 5. If/else
+  - If/else
+  - If/elif/else
+
+- ✅ 6. Match/case - Switch/case
+
+  ```py
+
+  ```
 
 ## Phase 2: Advanced CP Topics
 
