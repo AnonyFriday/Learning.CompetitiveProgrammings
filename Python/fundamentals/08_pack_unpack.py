@@ -21,6 +21,10 @@ def display(*numbers: Any) -> None:
         print(number)
 
 display(10,20,30, [40, 50])
+
+# - similar to the display(100,200,300,400)
+tuple = (100,200,300,400)
+display(*tuple)
         
 # Dictionary unpacking in function call
 def display2(a: Any,b: Any,c: Any) -> None:

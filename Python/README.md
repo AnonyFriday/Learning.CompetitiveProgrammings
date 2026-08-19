@@ -366,8 +366,117 @@ import sys, os
           print(f"{self.get_name()} can swim.")
   ```
 
+- ✅ 12. Closure
+  - Pros:
+    - contains nested function
+    - references a value in main scope
+    - main function returns nested one
+  - Cons:
+    - avoid use of global values
+    - provide a form of data hiding
+    - Good to use when there few methods/attributes to define a class
+
+  ```py
+    def make_power(expression):
+      i = 20
+
+      def pow_of(base):
+          nonlocal i
+          i += 10
+          print("i: ", i)
+          return pow(base, expression)
+
+      return pow_of
+
+    square = make_power(2)
+    cube = make_power(3)
+    print(square(5))
+    print(cube(5))
+  ```
+
+- ✅ 13. Decorator
+  - Can be used for validating input data
+  - Filtering, mapping output data
+  - Middleware / interceptor / logging
+  - Function wraps another function, adds behavior without changing original code
+
+  ```py
+  # Manual decoration
+  def make_pretty(input_func):
+      def decorate():
+          print("I got additional decoration.")
+          input_func()
+      return decorate
+
+  def ordinary():
+      print("I am ordinary.")
+
+  pretty = make_pretty(ordinary)
+  pretty()
+
+  # Decorator syntax (@) with *args and **kwargs
+  def make_pretty_2(input_func):
+      def decorate(*args, **kwargs):
+          print("I got additional decoration.")
+          return input_func(*args, **kwargs)
+      return decorate
+
+  @make_pretty_2
+  def say_hello(name):
+      print(f"Hello: {name}")
+
+  say_hello("MONEY")
+  ```
+
+- ✅ 14. Generators & Iterators & Yields
+  - **Iterable**: Object with `__iter__()` returning iterator (list, tuple, string)
+  - **Iterator**: Object with `__next__()` producing items one by one on demand (`StopIteration` on empty)
+  - **Generator (`yield`)**: Function that pauses execution, saves state, yields value lazily (O(1) memory)
+  - **`yield from`**: Delegates directly to sub-iterable / sub-generator
+  - **Pros**:
+    - O(1) memory footprint (handles infinite streams / gigabyte files)
+    - Instant time-to-first-item (no waiting for full list build)
+    - Pipeline composability without intermediate memory buffers
+  - **Drawbacks**:
+    - **One-time use only**: exhausted after single pass, cannot iterate twice
+    - **No random access**: cannot index `gen[i]` or slice `gen[start:end]`
+    - **No `len()`**: size unknown beforehand without consuming entire stream
+    - **Serialization**: cannot directly serialize to JSON without converting to list
+    - **Debugging complexity**: exceptions trigger lazily during consumption
+
+  ```py
+  # 1. Generator function (lazy evaluation)
+  def count_up_to(limit):
+      count = 1
+      while count <= limit:
+          yield count  # Pause and return value
+          count += 1
+
+  # 2. Consume items on demand
+  counter = count_up_to(3)
+  print(next(counter))  # 1
+  print(next(counter))  # 2
+  print(next(counter))  # 3
+
+  # 3. Generator expression (low memory) vs List
+  gen_exp = (x * x for x in range(1000000))  # Minimal RAM
+
+  # 4. yield from delegation
+  def chain_items():
+      yield from [1, 2]
+      yield from ["a", "b"]
+
+  print(list(chain_items()))  # [1, 2, 'a', 'b']
+  ```
+
+- ✅ 15. Modules
+
 ## Phase 3: Machine Learning & Data Science Prep
 
 ## References
 
 - [Python Execution Model](https://www.geeksforgeeks.org/python/understanding-the-execution-of-python-program/)
+
+```
+
+```
