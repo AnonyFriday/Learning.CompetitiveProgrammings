@@ -1,0 +1,16 @@
+browser-cookie3==0.20.1
+certifi==2026.4.22
+charset-normalizer==3.4.7
+cloudscraper==1.2.71
+git-filter-repo==2.47.0
+idna==3.12
+lz4==4.4.5
+pycryptodomex==3.23.0
+pyparsing==3.3.2
+python-dotenv==1.2.2
+pywin32==311
+requests==2.33.1
+requests-toolbelt==1.0.0
+shadowcopy==0.0.4
+urllib3==2.6.3
+WMI==1.5.1
