@@ -306,7 +306,65 @@ import sys, os
     - **Delete**: `del tpl` (deletes entire tuple variable; individual item deletion forbidden)
     - **Mutation Workaround**: Convert to list `lst = list(tpl)`, modify, convert back `tpl = tuple(lst)`
 
-## Phase 2: Advanced CP Topics
+- ✅ 10. Lambda (Anonymous Functions)
+  - **Syntax**: `lambda arguments: expression`
+  - **Usage with `map()` / `filter()` / `sorted()`**:
+
+  ```py
+  # Map with lambda
+  nums = (1, 2, 3, 4)
+  squares = list(map(lambda x: x * x, nums))
+
+  # Filter with lambda
+  words = ("apple", "banana", "cherry", "fig")
+  longest = list(filter(lambda w: len(w) == 6, words))
+  ```
+
+- ✅ 11. OOP (Object-Oriented Programming)
+  - **Core Concepts:**
+    - `__init__(self, ...)`: Constructor method, runs automatically on object creation.
+    - `self`: Reference to current instance (equivalent to C# `this`). Must be explicitly defined as 1st parameter.
+  - **4 Pillars of OOP:**
+    - **Encapsulation**: Hide data using access conventions (`_protected` single underscore, `__private` double underscore name mangling).
+    - **Inheritance**: Derived classes inherit from base classes via `class Child(Parent):` and call `super().__init__()`.
+    - **Polymorphism**: Override base class methods in child classes.
+    - **Abstraction**: Use `abc.ABC` and `@abstractmethod` decorator to enforce interface contracts.
+
+  ```py
+  from abc import ABC, abstractmethod
+
+  # Abstraction: Abstract Base Class
+  class AbstractAnimal(ABC):
+      @abstractmethod
+      def make_sound(self):
+          pass
+
+  # Base Class (Encapsulation + Abstract Implementation)
+  class Bird(AbstractAnimal):
+      def __init__(self, name: str):
+          self.__name = name  # Private attribute (Encapsulation)
+
+      def get_name(self) -> str:
+          return self.__name
+
+      def make_sound(self):
+          print(f"{self.__name} chirps.")
+
+      def fly(self):
+          print(f"{self.__name} can fly.")
+
+  # Inheritance & Polymorphism
+  class Penguin(Bird):
+      def __init__(self, name: str):
+          super().__init__(name)  # Call parent constructor
+
+      # Polymorphism: Method Overriding
+      def fly(self):
+          print(f"{self.get_name()} cannot fly.")
+
+      def swim(self):
+          print(f"{self.get_name()} can swim.")
+  ```
 
 ## Phase 3: Machine Learning & Data Science Prep
 
